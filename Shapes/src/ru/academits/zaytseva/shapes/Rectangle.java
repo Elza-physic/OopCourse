@@ -1,37 +1,45 @@
 package ru.academits.zaytseva.shapes;
 
-public class Rectangle implements Shapes {
-    private double side1Length;
-    private double side2Length;
+public class Rectangle implements Shape {
+    private double rectangleLength;
+    private double rectangleWidth;
 
-    public Rectangle(double side1Length, double side2Length) {
-        this.side1Length = side1Length;
-        this.side2Length = side2Length;
+    public Rectangle(double rectangleLength, double rectangleWidth) {
+        this.rectangleLength = rectangleLength;
+        this.rectangleWidth = rectangleWidth;
+    }
+
+    public double getRectangleLength() {
+        return rectangleLength;
+    }
+
+    public double getRectangleWidth() {
+        return rectangleWidth;
     }
 
     @Override
     public double getWidth() {
-        return side1Length;
+        return rectangleWidth;
     }
 
     @Override
     public double getHeight() {
-        return side2Length;
+        return rectangleLength;
     }
 
     @Override
     public double getArea() {
-        return side1Length * side2Length;
+        return rectangleLength * rectangleWidth;
     }
 
     @Override
     public double getPerimeter() {
-        return 2 * side1Length + 2 * side2Length;
+        return 2 * (rectangleLength + rectangleWidth);
     }
 
     @Override
     public String toString() {
-        return "Rectangle(" + side1Length + "," + side2Length + ")";
+        return "Rectangle(" + rectangleLength + ", " + rectangleWidth + ")";
     }
 
     @Override
@@ -45,15 +53,16 @@ public class Rectangle implements Shapes {
         }
 
         Rectangle rectangle = (Rectangle) o;
-        return side1Length == rectangle.side1Length && side2Length == rectangle.side2Length;
+        return rectangleLength == rectangle.rectangleLength && rectangleWidth == rectangle.rectangleWidth;
     }
 
     @Override
     public int hashCode() {
         final int prime = 37;
         int hash = 1;
-        hash = prime * hash + Double.hashCode(side1Length);
-        hash = prime * hash + Double.hashCode(side2Length);
+
+        hash = prime * hash + Double.hashCode(rectangleLength);
+        hash = prime * hash + Double.hashCode(rectangleWidth);
 
         return hash;
     }

@@ -1,10 +1,14 @@
 package ru.academits.zaytseva.shapes;
 
-public class Square implements Shapes {
+public class Square implements Shape {
     private double sideLength;
 
     public Square(double sideLength) {
         this.sideLength = sideLength;
+    }
+
+    public double getSideLength() {
+        return sideLength;
     }
 
     @Override
@@ -29,7 +33,7 @@ public class Square implements Shapes {
 
     @Override
     public String toString() {
-        return "Square (" + this.sideLength + ")";
+        return "Square(" + sideLength + ")";
     }
 
     @Override

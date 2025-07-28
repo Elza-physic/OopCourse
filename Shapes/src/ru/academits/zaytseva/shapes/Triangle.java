@@ -1,6 +1,6 @@
 package ru.academits.zaytseva.shapes;
 
-public class Triangle implements Shapes {
+public class Triangle implements Shape {
     private double x1;
     private double y1;
     private double x2;
@@ -17,6 +17,34 @@ public class Triangle implements Shapes {
         this.y3 = y3;
     }
 
+    public double getX1() {
+        return x1;
+    }
+
+    public double getY1() {
+        return y1;
+    }
+
+    public double getX2() {
+        return x2;
+    }
+
+    public double getY2() {
+        return y2;
+    }
+
+    public double getX3() {
+        return x3;
+    }
+
+    public double getY3() {
+        return y3;
+    }
+
+    public double getSideLength(double vertexX1, double vertexY1, double vertexX2, double vertexY2) {
+        return Math.sqrt(Math.pow(vertexX2 - vertexX1, 2) + Math.pow(vertexY2 - vertexY1, 2));
+    }
+
     @Override
     public double getWidth() {
         return Math.max(x1, Math.max(x2, x3)) - Math.min(x1, Math.min(x2, x3));
@@ -29,21 +57,17 @@ public class Triangle implements Shapes {
 
     @Override
     public double getArea() {
-        return getHeight() * getWidth() / 2;
+        return (x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2;
     }
 
     @Override
     public double getPerimeter() {
-        double side1Length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        double side2Length = Math.sqrt(Math.pow(x3 - x2, 2) + Math.pow(y3 - y2, 2));
-        double side3Length = Math.sqrt(Math.pow(x1 - x3, 2) + Math.pow(y1 - y3, 2));
-
-        return side1Length + side2Length + side3Length;
+        return getSideLength(x1, y1, x2, y2) + getSideLength(x2, y2, x3, y3) + getSideLength(x3, y3, x1, y1);
     }
 
     @Override
     public String toString() {
-        return "Triangle(" + x1 + "," + y1 + "," + x2 + "," + y2 + "," + x3 + "," + y3 + ")";
+        return "Triangle(" + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ", " + x3 + ", " + y3 + ")";
     }
 
     @Override
