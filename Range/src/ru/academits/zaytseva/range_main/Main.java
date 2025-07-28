@@ -15,35 +15,35 @@ public class Main {
         range.setTo(15.8);
         System.out.printf("Число %.2f лежит в заданном диапазоне = %b%n", checkNumber, range.isInside(checkNumber));
 
-        Range range1 = new Range(1.6, 10.0);
-        Range range2 = new Range(3.6, 20.0);
+        Range range1 = new Range(13.6, 20.0);
+        Range range2 = new Range(11.0, 18.0);
 
-        Range intersectionRange = range1.getIntersection(range2);
+        Range intersection = range1.getIntersection(range2);
 
-        if (intersectionRange == null) {
+        if (intersection == null) {
             System.out.println("null");
         } else {
-            System.out.printf("Интервал пересечения заданных интервалов - (%.2f; %.2f)%n", intersectionRange.getFrom(), intersectionRange.getTo());
+            System.out.printf("Интервал пересечения заданных интервалов - (%.2f; %.2f)%n", intersection.getFrom(), intersection.getTo());
         }
 
-        Range[] unionRange = range1.getRangeUnion(range2);
+        Range[] union = range1.getUnion(range2);
         System.out.print("Объединение заданных интервалов - [");
 
-        for (Range rangeLimit : unionRange) {
-            System.out.printf("(%.2f; %.2f)", rangeLimit.getFrom(), rangeLimit.getTo());
+        for (Range r : union) {
+            System.out.printf("(%.2f; %.2f)", r.getFrom(), r.getTo());
         }
 
         System.out.println("]");
 
-        Range[] differenceRange = range1.getRangeDifference(range2);
+        Range[] difference = range1.getDifference(range2);
 
-        if (differenceRange == null) {
+        if (difference == null) {
             System.out.println("Интервалы совпадают");
         } else {
             System.out.print("Разность заданных интервалов - [");
 
-            for (Range rangeLimit : differenceRange) {
-                System.out.printf("(%.2f; %.2f)", rangeLimit.getFrom(), rangeLimit.getTo());
+            for (Range r : difference) {
+                System.out.printf("(%.2f; %.2f)", r.getFrom(), r.getTo());
             }
 
             System.out.println("]");

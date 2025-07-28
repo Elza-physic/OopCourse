@@ -34,51 +34,38 @@ public class Range {
     }
 
     public Range getIntersection(Range range) {
-        if (this.to <= range.from || range.to <= this.from) {
+        if (to <= range.from || range.to <= from) {
             return null;
         }
 
-        return new Range(Math.max(this.from, range.from), Math.min(this.to, range.to));
+        return new Range(Math.max(from, range.from), Math.min(to, range.to));
     }
 
-    public Range[] getRangeUnion(Range range) {
-        if (this.to < range.from || range.to < this.from) {
-            Range[] unionRange = new Range[2];
-            unionRange[0] = new Range(this.from, this.to);
-            unionRange[1] = new Range(range.from, range.to);
-
-            return unionRange;
+    public Range[] getUnion(Range range) {
+        if (to < range.from || range.to < from) {
+            return new Range[]{new Range(from, to), new Range(range.from, range.to)};
         }
 
-        Range[] unionRange = new Range[1];
-        unionRange[0] = new Range(Math.min(this.from, range.from), Math.max(this.to, range.to));
-
-        return unionRange;
+        return new Range[]{new Range(Math.min(from, range.from), Math.max(to, range.to))};
     }
 
-    public Range[] getRangeDifference(Range range) {
-        if (this.from == range.from && this.to == range.to) {
-            return null;
+    public Range[] getDifference(Range range) {
+        if (from > range.to || to < range.from) {
+            return new Range[]{new Range(from, to)};
         }
 
-        if (this.from == range.from) {
-            Range[] differenceRange = new Range[1];
-            differenceRange[0] = new Range(Math.min(this.to, range.to), Math.max(this.to, range.to));
-
-            return differenceRange;
+        if (from < range.from && to > range.to) {
+            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
         }
 
-        if (this.to == range.to) {
-            Range[] differenceRange = new Range[1];
-            differenceRange[0] = new Range(Math.min(this.from, range.from), Math.max(this.from, range.from));
-
-            return differenceRange;
+        if (from >= range.from && to > range.to) {
+            return new Range[]{new Range(range.to, to)};
         }
 
-        Range[] differenceRange = new Range[2];
-        differenceRange[0] = new Range(Math.min(this.from, range.from), Math.min(Math.max(this.from, range.from), this.to));
-        differenceRange[1] = new Range(Math.max(Math.min(this.to, range.to), range.from), Math.max(this.to, range.to));
+        if (from < range.from && to <= range.to) {
+            return new Range[]{new Range(from, range.from)};
+        }
 
-        return differenceRange;
+        return new Range[0];
     }
 }
