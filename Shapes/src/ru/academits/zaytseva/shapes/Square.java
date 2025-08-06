@@ -1,15 +1,6 @@
 package ru.academits.zaytseva.shapes;
 
-public class Square implements Shape {
-    private double sideLength;
-
-    public Square(double sideLength) {
-        this.sideLength = sideLength;
-    }
-
-    public double getSideLength() {
-        return sideLength;
-    }
+public record Square(double sideLength) implements Shape {
 
     @Override
     public double getWidth() {

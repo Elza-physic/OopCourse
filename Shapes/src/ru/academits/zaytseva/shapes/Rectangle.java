@@ -1,45 +1,30 @@
 package ru.academits.zaytseva.shapes;
 
-public class Rectangle implements Shape {
-    private double rectangleLength;
-    private double rectangleWidth;
-
-    public Rectangle(double rectangleLength, double rectangleWidth) {
-        this.rectangleLength = rectangleLength;
-        this.rectangleWidth = rectangleWidth;
-    }
-
-    public double getRectangleLength() {
-        return rectangleLength;
-    }
-
-    public double getRectangleWidth() {
-        return rectangleWidth;
-    }
+public record Rectangle(double height, double width) implements Shape {
 
     @Override
     public double getWidth() {
-        return rectangleWidth;
+        return width;
     }
 
     @Override
     public double getHeight() {
-        return rectangleLength;
+        return height;
     }
 
     @Override
     public double getArea() {
-        return rectangleLength * rectangleWidth;
+        return height * width;
     }
 
     @Override
     public double getPerimeter() {
-        return 2 * (rectangleLength + rectangleWidth);
+        return 2 * (height + width);
     }
 
     @Override
     public String toString() {
-        return "Rectangle(" + rectangleLength + ", " + rectangleWidth + ")";
+        return "Rectangle(" + height + ", " + width + ")";
     }
 
     @Override
@@ -53,7 +38,7 @@ public class Rectangle implements Shape {
         }
 
         Rectangle rectangle = (Rectangle) o;
-        return rectangleLength == rectangle.rectangleLength && rectangleWidth == rectangle.rectangleWidth;
+        return height == rectangle.height && width == rectangle.width;
     }
 
     @Override
@@ -61,8 +46,8 @@ public class Rectangle implements Shape {
         final int prime = 37;
         int hash = 1;
 
-        hash = prime * hash + Double.hashCode(rectangleLength);
-        hash = prime * hash + Double.hashCode(rectangleWidth);
+        hash = prime * hash + Double.hashCode(height);
+        hash = prime * hash + Double.hashCode(width);
 
         return hash;
     }
