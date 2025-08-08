@@ -1,7 +1,6 @@
 package ru.academits.zaytseva.shapes;
 
 public record Triangle(double x1, double y1, double x2, double y2, double x3, double y3) implements Shape {
-
     private static double getSideLength(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     }
@@ -18,7 +17,7 @@ public record Triangle(double x1, double y1, double x2, double y2, double x3, do
 
     @Override
     public double getArea() {
-        return ((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1)) / 2;
+        return Math.abs(((x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1)) / 2);
     }
 
     @Override

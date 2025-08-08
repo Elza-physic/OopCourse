@@ -1,7 +1,6 @@
 package ru.academits.zaytseva.shapes;
 
 public record Rectangle(double height, double width) implements Shape {
-
     @Override
     public double getWidth() {
         return width;

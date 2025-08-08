@@ -1,7 +1,6 @@
 package ru.academits.zaytseva.shapes;
 
 public record Circle(double radius) implements Shape {
-
     @Override
     public double getWidth() {
         return 2 * radius;

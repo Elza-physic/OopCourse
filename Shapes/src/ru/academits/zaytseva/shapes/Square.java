@@ -1,7 +1,6 @@
 package ru.academits.zaytseva.shapes;
 
 public record Square(double sideLength) implements Shape {
-
     @Override
     public double getWidth() {
         return sideLength;
