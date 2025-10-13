@@ -3,45 +3,53 @@ package ru.academits.zaytseva.arraylisthome;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 
 public class Main {
-    public static ArrayList<String> getList(String fileName) {
-        ArrayList<String> list = new ArrayList<>();
+    public static ArrayList<String> readFile(String fileName) throws IOException {
+        ArrayList<String> stringsList = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        String line;
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                Collections.addAll(list, line.split(" "));
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Ошибка чтения файла. Файл не найден");
-        } catch (IOException e) {
-            System.out.println("Ошибка чтения файла");
+        while ((line = reader.readLine()) != null) {
+            stringsList.add(line);
         }
 
-        return list;
+        return stringsList;
     }
 
-    public static void deleteEvenNumbers(ArrayList<String> list) {
-        Iterator<String> listIterator = list.iterator();
+    public static ArrayList<Integer> convertToNumbersList(ArrayList<String> stringsList) {
+        ArrayList<String> items = new ArrayList<>();
+        ArrayList<Integer> numbers = new ArrayList<>();
 
-        while (listIterator.hasNext()) {
-            String item = listIterator.next();
+        for (String string : stringsList) {
+            Collections.addAll(items, string.split(" "));
+        }
 
-            if (Integer.parseInt(item) % 2 == 0) {
-                listIterator.remove();
+        for (String item : items) {
+            numbers.add(Integer.valueOf(item));
+        }
+
+        return numbers;
+    }
+
+    public static void deleteEvenNumbers(ArrayList<Integer> numbers) {
+        ArrayList<Integer> toRemove = new ArrayList<>();
+
+        for (Integer number : numbers) {
+            if (number % 2 == 0) {
+                toRemove.add(number);
             }
         }
+
+        numbers.removeAll(toRemove);
     }
 
-    public static <E> ArrayList<E> getWithoutDuplicates(ArrayList<E> numbers) {
-        ArrayList<E> listWithoutDuplicates = new ArrayList<>(numbers.size());
+    public static <E> ArrayList<E> getListWithoutDuplicates(ArrayList<E> initialList) {
+        ArrayList<E> listWithoutDuplicates = new ArrayList<>(initialList.size());
 
-        for (E number : numbers) {
-            if (!listWithoutDuplicates.contains(number)) {
-                listWithoutDuplicates.add(number);
+        for (E items : initialList) {
+            if (!listWithoutDuplicates.contains(items)) {
+                listWithoutDuplicates.add(items);
             }
         }
 
@@ -49,14 +57,20 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String fileName = "input.txt";
+        try {
+            String fileName = "input.txt";
+            ArrayList<String> list = readFile(fileName);
+            System.out.println("Исходный список: " + list);
 
-        ArrayList<String> numbers = getList(fileName);
-        System.out.println(numbers);
+            ArrayList<Integer> numbers = convertToNumbersList(list);
+            deleteEvenNumbers(numbers);
+            System.out.println("Список без четных чисел: " + numbers);
 
-        deleteEvenNumbers(numbers);
-        System.out.println("Список без четных чисел: " + numbers);
-
-        System.out.println("Список без дубликатов: " + getWithoutDuplicates(numbers));
+            System.out.println("Список без дубликатов: " + getListWithoutDuplicates(numbers));
+        } catch (FileNotFoundException e) {
+            System.out.println("Ошибка чтения файла. Файл не найден");
+        } catch (IOException e) {
+            System.out.println("Ошибка чтения файла");
+        }
     }
 }
