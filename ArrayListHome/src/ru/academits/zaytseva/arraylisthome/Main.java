@@ -17,14 +17,14 @@ public class Main {
         }
     }
 
-    public static ArrayList<Integer> convertToNumbersList(ArrayList<String> linesList) {
+    public static ArrayList<Integer> convertToNumbersList(ArrayList<String> stringsList) {
         ArrayList<Integer> numbers = new ArrayList<>();
 
-        for (String line : linesList) {
-            String[] lineArray = line.split(" ");
+        for (String line : stringsList) {
+            String[] stringItemsArray = line.split(" ");
 
-            for (String number : lineArray) {
-                numbers.add(Integer.valueOf(number));
+            for (String stringItem : stringItemsArray) {
+                numbers.add(Integer.valueOf(stringItem));
             }
         }
 
