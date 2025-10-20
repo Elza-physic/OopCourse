@@ -4,49 +4,44 @@ import ru.academits.zaytseva.vector.Vector;
 
 public class Main {
     public static void main(String[] args) {
-        Vector V1 = new Vector(3);
-        Vector V2 = new Vector(new double[]{4.0, 7.5, 8.0});
-        Vector V3 = new Vector(3, new double[]{3.0, 6.5});
-        Vector V4 = new Vector(V2);
-        Vector V5 = new Vector(4, new double[]{1.2, 4.0, 3.7, 8.0});
+        Vector vector1 = new Vector(3);
+        Vector vector2 = new Vector(new double[]{4.0, 7.5, 8.0});
+        Vector vector3 = new Vector(3, new double[]{3.0, 6.5});
+        Vector vector4 = new Vector(vector2);
+        Vector vector5 = new Vector(4, new double[]{1.2, 4.0, 3.7, 8.0});
 
-        System.out.println("Вектор V2 = " + V2);
-        System.out.println("Вектор V3 = " + V3);
-        System.out.println("Размер вектора V2 = " + V2.getSize());
-        System.out.println("Размер вектора V3 = " + V3.getSize());
+        System.out.println("Вектор vector2 = " + vector2);
+        System.out.println("Вектор vector3 = " + vector3);
+        System.out.println("Размер вектора vector2 = " + vector2.getSize());
+        System.out.println("Размер вектора vector3 = " + vector3.getSize());
 
-        V2.addition(V3);
-        System.out.println("Сумма векторов V2 + V3 = " + V2);
+        vector1.addAnotherVector(vector2);
+        System.out.println("Сумма векторов vector1 + vector2 = " + vector1.addAnotherVector(vector2));
 
-        V2.difference(V3);
-        System.out.println("Разница между векторами V2 - V3 = " + V2);
+        vector2.subtractAnotherVector(vector5);
+        System.out.println("Разница между векторами vector2 - vector5 = " + vector2);
 
-        V3.multiScalar(5);
-        System.out.println("Вектор V3 = " + V3);
-        System.out.println("Умножение вектора V4 на 5 = " + V3);
+        vector3.multiplicationByScalar(5);
+        System.out.println("Вектор vector3 = " + vector3);
+        System.out.println("Умножение вектора vector4 на 5 = " + vector3);
 
-        V3.revers();
-        System.out.println("Вектор V3 после разворота = " + V3);
+        vector3.revert();
+        System.out.println("Вектор vector3 после разворота = " + vector3);
 
-        double length = V5.vectorLength();
-        System.out.println("Вектор V5 = " + V5);
-        System.out.println("Длина вектора V5 = " + length);
+        System.out.println("Вектор vector5 = " + vector5);
+        System.out.println("Длина вектора vector5 = " + vector5.getLength());
 
-        double component = V5.getComponent(3);
-        System.out.println("Компонента вектора V5 с индексом 3 = " + component);
+        System.out.println("Компонента вектора vector5 с индексом 3 = " + vector5.getComponent(3));
 
-        V5.setComponent(2, 5.6);
-        System.out.println("Вектор V5 = " + V5);
+        vector5.setComponent(2, 5.6);
+        System.out.println("Вектор vector5 = " + vector5);
 
-        int hashV2 = V2.hashCode();
-        int hashV4 = V4.hashCode();
+        System.out.printf("Хэш-коды векторов vector2, vector4, vector5 равны %d, %d%n", vector2.hashCode(), vector4.hashCode());
 
-        System.out.printf("Хэш-коды векторов V2, V4, V5 равны %d, %d%n", hashV2, hashV4);
+        System.out.println("Сумма векторов vector2 и vector5 = " + Vector.getSum(vector2, vector5));
 
-        Vector sum = Vector.getAddition(V2, V5);
-        System.out.println("Сумма векторов V2 + V5 = " + sum);
+        System.out.println("Разность векторов vector2 и vector5 = " + Vector.getDifference(vector2, vector5));
 
-        double scalarProduct = Vector.getScalarProduct(V2, V5);
-        System.out.println("Сумма векторов V2 + V5 = " + scalarProduct);
+        System.out.println("Скалярное произведение векторов vector2 и vector5 = " + Vector.getScalarProduct(vector2, vector5));
     }
 }

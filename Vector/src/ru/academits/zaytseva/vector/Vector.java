@@ -3,118 +3,112 @@ package ru.academits.zaytseva.vector;
 import java.util.Arrays;
 
 public class Vector {
-    private double[] vector;
+    private double[] itemsArray;
 
-    public Vector(int n) {
-        if (n <= 0) {
-            throw new IllegalArgumentException("Число n должно быть > 0. Введено число n= " + n);
+    public Vector(int dimension) {
+        if (dimension <= 0) {
+            throw new IllegalArgumentException("Размерность вектора должно быть положительной. Введено значение размерности = " + dimension);
         }
-        this.vector = new double[n];
+
+        this.itemsArray = new double[dimension];
     }
 
-    public Vector(Vector otherVector) {
-        this.vector = Arrays.copyOf(otherVector.vector, otherVector.vector.length);
+    public Vector(Vector vector) {
+        this.itemsArray = Arrays.copyOf(vector.itemsArray, vector.itemsArray.length);
     }
 
     public Vector(double[] array) {
-        this.vector = Arrays.copyOf(array, array.length);
-    }
-
-    public Vector(int n, double[] array) {
-        if (n <= 0) {
-            throw new IllegalArgumentException("Число n должно быть > 0. Введено число n= " + n);
+        if (array.length == 0) {
+            throw new IllegalArgumentException("Размер массива должен быть больше 0. Введен массив с размером = " + array.length);
         }
-        this.vector = new double[n];
 
-        for (int i = 0; i < n; i++) {
-            if (i < array.length) {
-                this.vector[i] = array[i];
-            } else {
-                this.vector[i] = 0;
-            }
+        this.itemsArray = Arrays.copyOf(array, array.length);
+    }
+
+    public Vector(int dimension, double[] array) {
+        if (dimension <= 0) {
+            throw new IllegalArgumentException("Размерность вектора должно быть положительной. Введено значение размерности = " + dimension);
         }
-    }
 
-    public double[] getVector() {
-        return vector;
-    }
-
-    public void setVector(double[] vector) {
-        this.vector = vector;
+        this.itemsArray = new double[dimension];
+        System.arraycopy(array, 0, this.itemsArray, 0, array.length);
     }
 
     public int getSize() {
-        return vector.length;
+        return itemsArray.length;
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(vector).replace("[", "{").replace("]", "}");
+        StringBuilder vector = new StringBuilder("{");
+
+        for (int i = 0; i < itemsArray.length - 1; i++) {
+            vector.append(itemsArray[i]).append(", ");
+        }
+
+        return vector.append(itemsArray[itemsArray.length - 1]).append("}").toString();
     }
 
-    public void addition(Vector secondVector) {
-        int n = vector.length;
+    public Vector addAnotherVector(Vector vector) {
+        int dimension = Math.max(itemsArray.length, vector.getSize());
+        itemsArray = itemsArray.length >= dimension ? itemsArray : Arrays.copyOf(itemsArray, dimension);
 
-        if (n != secondVector.getSize()) {
-            throw new IllegalArgumentException("Размерность векторов должна быть одинаковая. " +
-                    "Размер первого вектора = " + n + ". " +
-                    "Размер второго вектора = " + secondVector.getSize());
+        for (int i = 0; i < dimension; i++) {
+            double vectorValue = (i < vector.getSize()) ? vector.getComponent(i) : 0;
+            itemsArray[i] += vectorValue;
         }
 
-        for (int i = 0; i < n; i++) {
-            vector[i] += secondVector.vector[i];
-        }
+        return this;
     }
 
-    public void difference(Vector secondVector) {
-        int n = vector.length;
+    public Vector subtractAnotherVector(Vector vector) {
+        int dimension = Math.max(itemsArray.length, vector.getSize());
+        itemsArray = itemsArray.length >= dimension ? itemsArray : Arrays.copyOf(itemsArray, dimension);
 
-        if (n != secondVector.getSize()) {
-            throw new IllegalArgumentException("Размерность векторов должна быть одинаковая. " +
-                    "Размер первого вектора = " + n + ". Размер второго вектора = " + secondVector.getSize());
+        for (int i = 0; i < dimension; i++) {
+            double vectorValue = (i < vector.getSize()) ? vector.getComponent(i) : 0;
+            itemsArray[i] -= vectorValue;
         }
 
-        for (int i = 0; i < n; i++) {
-            vector[i] -= secondVector.vector[i];
-        }
+        return this;
     }
 
-    public void multiScalar(double scalar) {
-        for (int i = 0; i < this.getSize(); i++) {
-            this.vector[i] *= scalar;
-        }
-    }
-
-    public void revers() {
-        for (int i = 0; i < this.getSize(); i++) {
-            this.vector[i] *= -1;
+    public void multiplicationByScalar(double scalar) {
+        for (int i = 0; i < getSize(); i++) {
+            itemsArray[i] *= scalar;
         }
     }
 
-    public double vectorLength() {
+    public void revert() {
+        multiplicationByScalar(-1);
+    }
+
+    public double getLength() {
         double squaresSum = 0;
 
-        for (double component : vector) {
+        for (double component : itemsArray) {
             squaresSum += component * component;
         }
 
-        return Math.sqrt((squaresSum));
+        return Math.sqrt(squaresSum);
     }
 
     public double getComponent(int index) {
-        if (index < 0 || index > vector.length) {
-            throw new IllegalArgumentException("Индекс должен быть в диапазоне от 0 до " + (vector.length - 1));
+        if (index < 0 || index > itemsArray.length) {
+            throw new ArrayIndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + (itemsArray.length - 1) +
+                    ". Введен индекс " + index);
         }
 
-        return vector[index];
+        return itemsArray[index];
     }
 
     public void setComponent(int index, double value) {
-        if (index < 0 || index > vector.length) {
-            throw new IllegalArgumentException("Индекс должен быть в диапазоне от 0 до " + (vector.length - 1));
+        if (index < 0 || index > itemsArray.length) {
+            throw new ArrayIndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + (itemsArray.length - 1) +
+                    ". Введен индекс " + index);
         }
 
-        vector[index] = value;
+        itemsArray[index] = value;
     }
 
     @Override
@@ -127,8 +121,8 @@ public class Vector {
             return false;
         }
 
-        Vector other = (Vector) obj;
-        return Arrays.equals(vector, other.vector);
+        Vector vector = (Vector) obj;
+        return Arrays.equals(itemsArray, vector.itemsArray);
     }
 
     @Override
@@ -136,35 +130,19 @@ public class Vector {
         final int prime = 37;
         int hash = 1;
 
-        return prime * hash + Arrays.hashCode(vector);
+        return prime * hash + Arrays.hashCode(itemsArray);
     }
 
-    public static Vector getAddition(Vector vector1, Vector vector2) {
-        int vectorSize = Math.max(vector1.getSize(), vector2.getSize());
+    public static Vector getSum(Vector vector1, Vector vector2) {
+        Vector result = new Vector(vector1);
 
-        Vector result = new Vector(vectorSize);
-
-        for (int i = 0; i < vectorSize; i++) {
-            double value1 = (i < vector1.getSize()) ? vector1.getComponent(i) : 0;
-            double value2 = (i < vector2.getSize()) ? vector2.getComponent(i) : 0;
-            result.setComponent(i, value1 + value2);
-        }
-
-        return result;
+        return result.addAnotherVector(vector2);
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
-        int vectorSize = Math.max(vector1.getSize(), vector2.getSize());
+        Vector result = new Vector(vector1);
 
-        Vector result = new Vector(vectorSize);
-
-        for (int i = 0; i < vectorSize; i++) {
-            double value1 = (i < vector1.getSize()) ? vector1.getComponent(i) : 0;
-            double value2 = (i < vector2.getSize()) ? vector2.getComponent(i) : 0;
-            result.setComponent(i, value1 - value2);
-        }
-
-        return result;
+        return result.subtractAnotherVector(vector2);
     }
 
     public static double getScalarProduct(Vector vector1, Vector vector2) {
@@ -172,7 +150,7 @@ public class Vector {
         double result = 0;
 
         for (int i = 0; i < vectorSize; i++) {
-            result += vector1.getComponent(i)*vector2.getComponent(i);
+            result += vector1.getComponent(i) * vector2.getComponent(i);
         }
 
         return result;
