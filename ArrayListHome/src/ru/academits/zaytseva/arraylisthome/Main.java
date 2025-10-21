@@ -20,8 +20,8 @@ public class Main {
     public static ArrayList<Integer> convertToNumbersList(ArrayList<String> stringsList) {
         ArrayList<Integer> numbers = new ArrayList<>();
 
-        for (String line : stringsList) {
-            String[] stringItemsArray = line.split(" ");
+        for (String string : stringsList) {
+            String[] stringItemsArray = string.split(" ");
 
             for (String stringItem : stringItemsArray) {
                 numbers.add(Integer.valueOf(stringItem));
