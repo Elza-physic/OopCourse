@@ -10,20 +10,23 @@ public class Main {
         Vector vector4 = new Vector(vector2);
         Vector vector5 = new Vector(4, new double[]{1.2, 4.0, 3.7, 8.0});
 
+        System.out.println("Вектор vector1 = " + vector1);
         System.out.println("Вектор vector2 = " + vector2);
         System.out.println("Вектор vector3 = " + vector3);
+        System.out.println("Вектор vector4 = " + vector4);
+        System.out.println("Вектор vector5 = " + vector5);
         System.out.println("Размер вектора vector2 = " + vector2.getSize());
         System.out.println("Размер вектора vector3 = " + vector3.getSize());
 
-        vector1.addAnotherVector(vector2);
-        System.out.println("Сумма векторов vector1 + vector2 = " + vector1.addAnotherVector(vector2));
+        vector1.add(vector2);
+        System.out.println("Сумма векторов vector1 + vector2 = " + vector1);
 
-        vector2.subtractAnotherVector(vector5);
+        vector2.subtract(vector5);
         System.out.println("Разница между векторами vector2 - vector5 = " + vector2);
 
-        vector3.multiplicationByScalar(5);
+        vector3.multiplyByScalar(5);
         System.out.println("Вектор vector3 = " + vector3);
-        System.out.println("Умножение вектора vector4 на 5 = " + vector3);
+        System.out.println("Умножение вектора vector3 на 5 = " + vector3);
 
         vector3.revert();
         System.out.println("Вектор vector3 после разворота = " + vector3);
@@ -31,9 +34,9 @@ public class Main {
         System.out.println("Вектор vector5 = " + vector5);
         System.out.println("Длина вектора vector5 = " + vector5.getLength());
 
-        System.out.println("Компонента вектора vector5 с индексом 3 = " + vector5.getComponent(3));
+        System.out.println("Компонента вектора vector5 с индексом 1 = " + vector5.getComponent(1));
 
-        vector5.setComponent(2, 5.6);
+        vector5.setComponent(3, 5.6);
         System.out.println("Вектор vector5 = " + vector5);
 
         System.out.printf("Хэш-коды векторов vector2, vector4, vector5 равны %d, %d%n", vector2.hashCode(), vector4.hashCode());

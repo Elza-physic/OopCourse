@@ -3,18 +3,18 @@ package ru.academits.zaytseva.vector;
 import java.util.Arrays;
 
 public class Vector {
-    private double[] items;
+    private double[] components;
 
     public Vector(int dimension) {
         if (dimension <= 0) {
             throw new IllegalArgumentException("Размерность вектора должна быть положительной. Передано значение размерности = " + dimension);
         }
 
-        items = new double[dimension];
+        components = new double[dimension];
     }
 
     public Vector(Vector vector) {
-        items = Arrays.copyOf(vector.items, vector.items.length);
+        components = Arrays.copyOf(vector.components, vector.components.length);
     }
 
     public Vector(double[] array) {
@@ -22,76 +22,61 @@ public class Vector {
             throw new IllegalArgumentException("Размер массива должен быть больше 0. Передан массив с размером = " + array.length);
         }
 
-        items = Arrays.copyOf(array, array.length);
+        components = Arrays.copyOf(array, array.length);
     }
 
     public Vector(int dimension, double[] array) {
         if (dimension <= 0) {
             throw new IllegalArgumentException("Размерность вектора должна быть положительной. Передано значение размерности = " + dimension);
         }
+
         if (array == null) {
-            throw new NullPointerException("Переданый массив = null");
+            throw new NullPointerException("Переданный массив = null");
         }
 
-        items = new double[dimension];
-        System.arraycopy(array, 0, items, 0, array.length);
+        components = Arrays.copyOf(array, dimension);
     }
 
     public int getSize() {
-        return items.length;
+        return components.length;
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("{");
-        int lastIndex = items.length - 1;
+        int lastIndex = components.length - 1;
 
         for (int i = 0; i < lastIndex; i++) {
-            stringBuilder.append(items[i]).append(", ");
+            stringBuilder.append(components[i]).append(", ");
         }
 
-        return stringBuilder.append(items[lastIndex]).append("}").toString();
+        return stringBuilder.append(components[lastIndex]).append("}").toString();
     }
 
-    public Vector add(Vector vector) {
-        int maxLength = Math.max(items.length, vector.items.length);
+    public void add(Vector vector) {
+        int maxSize = Math.max(components.length, vector.components.length);
 
-        if (items.length >= maxLength) {
-            for (int i = 0; i < vector.items.length; i++) {
-                items[i] += vector.items[i];
+        if (components.length >= maxSize) {
+            for (int i = 0; i < vector.components.length; i++) {
+                components[i] += vector.components[i];
             }
         } else {
-            items = Arrays.copyOf(items, maxLength);
+            components = Arrays.copyOf(components, maxSize);
 
-            for (int i = 0; i < maxLength; i++) {
-                items[i] += vector.items[i];
+            for (int i = 0; i < maxSize; i++) {
+                components[i] += vector.components[i];
             }
         }
-
-        return this;
     }
 
-    public Vector subtract(Vector vector) {
-        int maxLength = Math.max(items.length, vector.items.length);
-
-        if (items.length >= maxLength) {
-            for (int i = 0; i < vector.items.length; i++) {
-                items[i] -= vector.items[i];
-            }
-        } else {
-            items = Arrays.copyOf(items, maxLength);
-
-            for (int i = 0; i < maxLength; i++) {
-                items[i] -= vector.items[i];
-            }
-        }
-
-        return this;
+    public void subtract(Vector vector) {
+        vector.revert();
+        add(vector);
     }
 
     public void multiplyByScalar(double scalar) {
-        for (int i = 0; i < items.length; i++) {
-            items[i] *= scalar;
+        for (int i = 0; i < components.length; i++) {
+            components[i] *= scalar;
         }
     }
 
@@ -102,7 +87,7 @@ public class Vector {
     public double getLength() {
         double squaresSum = 0;
 
-        for (double component : items) {
+        for (double component : components) {
             squaresSum += component * component;
         }
 
@@ -110,21 +95,21 @@ public class Vector {
     }
 
     public double getComponent(int index) {
-        if (index < 0 || index >= items.length) {
-            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + (items.length - 1) +
+        if (index < 0 || index >= components.length) {
+            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + (components.length - 1) +
                     ". Передан индекс " + index);
         }
 
-        return items[index];
+        return components[index];
     }
 
     public void setComponent(int index, double value) {
-        if (index < 0 || index >= items.length) {
-            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + (items.length - 1) +
+        if (index < 0 || index >= components.length) {
+            throw new IndexOutOfBoundsException("Индекс должен быть в диапазоне от 0 до " + (components.length - 1) +
                     ". Передан индекс " + index);
         }
 
-        items[index] = value;
+        components[index] = value;
     }
 
     @Override
@@ -138,7 +123,7 @@ public class Vector {
         }
 
         Vector vector = (Vector) obj;
-        return Arrays.equals(items, vector.items);
+        return Arrays.equals(components, vector.components);
     }
 
     @Override
@@ -146,27 +131,29 @@ public class Vector {
         final int prime = 37;
         int hash = 1;
 
-        return prime * hash + Arrays.hashCode(items);
+        return prime * hash + Arrays.hashCode(components);
     }
 
     public static Vector getSum(Vector vector1, Vector vector2) {
         Vector result = new Vector(vector1);
+        result.add(vector2);
 
-        return result.add(vector2);
+        return result;
     }
 
     public static Vector getDifference(Vector vector1, Vector vector2) {
         Vector result = new Vector(vector1);
+        result.subtract(vector2);
 
-        return result.subtract(vector2);
+        return result;
     }
 
     public static double getScalarProduct(Vector vector1, Vector vector2) {
-        int minLength = Math.min(vector1.items.length, vector2.items.length);
+        int minSize = Math.min(vector1.components.length, vector2.components.length);
         double result = 0;
 
-        for (int i = 0; i < minLength; i++) {
-            result += vector1.items[i] * vector2.items[i];
+        for (int i = 0; i < minSize; i++) {
+            result += vector1.components[i] * vector2.components[i];
         }
 
         return result;
