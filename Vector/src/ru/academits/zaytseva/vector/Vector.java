@@ -5,12 +5,12 @@ import java.util.Arrays;
 public class Vector {
     private double[] components;
 
-    public Vector(int dimension) {
-        if (dimension <= 0) {
-            throw new IllegalArgumentException("Размерность вектора должна быть положительной. Передано значение размерности = " + dimension);
+    public Vector(int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Размерность вектора должна быть положительной. Передано значение размерности = " + size);
         }
 
-        components = new double[dimension];
+        components = new double[size];
     }
 
     public Vector(Vector vector) {
@@ -25,16 +25,16 @@ public class Vector {
         components = Arrays.copyOf(array, array.length);
     }
 
-    public Vector(int dimension, double[] array) {
-        if (dimension <= 0) {
-            throw new IllegalArgumentException("Размерность вектора должна быть положительной. Передано значение размерности = " + dimension);
+    public Vector(int size, double[] array) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Размерность вектора должна быть положительной. Передано значение размерности = " + size);
         }
 
         if (array == null) {
             throw new NullPointerException("Переданный массив = null");
         }
 
-        components = Arrays.copyOf(array, dimension);
+        components = Arrays.copyOf(array, size);
     }
 
     public int getSize() {
@@ -54,24 +54,27 @@ public class Vector {
     }
 
     public void add(Vector vector) {
-        int maxSize = Math.max(components.length, vector.components.length);
+        components = Arrays.copyOf(components, Math.max(components.length, vector.components.length));
 
-        if (components.length >= maxSize) {
-            for (int i = 0; i < vector.components.length; i++) {
+        for (int i = 0; i < components.length; i++) {
+            if (vector.components.length > i) {
                 components[i] += vector.components[i];
-            }
-        } else {
-            components = Arrays.copyOf(components, maxSize);
-
-            for (int i = 0; i < maxSize; i++) {
-                components[i] += vector.components[i];
+            } else {
+                return;
             }
         }
     }
 
     public void subtract(Vector vector) {
-        vector.revert();
-        add(vector);
+        components = Arrays.copyOf(components, Math.max(components.length, vector.components.length));
+
+        for (int i = 0; i < components.length; i++) {
+            if (vector.components.length > i) {
+                components[i] -= vector.components[i];
+            } else {
+                return;
+            }
+        }
     }
 
     public void multiplyByScalar(double scalar) {
