@@ -50,30 +50,36 @@ public class Vector {
             stringBuilder.append(components[i]).append(", ");
         }
 
-        return stringBuilder.append(components[lastIndex]).append("}").toString();
+        return stringBuilder.append(components[lastIndex]).append('}').toString();
     }
 
     public void add(Vector vector) {
-        components = Arrays.copyOf(components, Math.max(components.length, vector.components.length));
+        int lastIndex;
 
-        for (int i = 0; i < components.length; i++) {
-            if (vector.components.length > i) {
-                components[i] += vector.components[i];
-            } else {
-                return;
-            }
+        if (components.length < Math.max(components.length, vector.components.length)) {
+            components = Arrays.copyOf(components, vector.components.length);
+            lastIndex = components.length;
+        } else {
+            lastIndex = vector.components.length;
+        }
+
+        for (int i = 0; i < lastIndex; i++) {
+            components[i] += vector.components[i];
         }
     }
 
     public void subtract(Vector vector) {
-        components = Arrays.copyOf(components, Math.max(components.length, vector.components.length));
+        int lastIndex;
 
-        for (int i = 0; i < components.length; i++) {
-            if (vector.components.length > i) {
-                components[i] -= vector.components[i];
-            } else {
-                return;
-            }
+        if (components.length < Math.max(components.length, vector.components.length)) {
+            components = Arrays.copyOf(components, vector.components.length);
+            lastIndex = components.length;
+        } else {
+            lastIndex = vector.components.length;
+        }
+
+        for (int i = 0; i < lastIndex; i++) {
+            components[i] -= vector.components[i];
         }
     }
 

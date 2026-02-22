@@ -18,8 +18,8 @@ public class Main {
         System.out.println("Размер вектора vector2 = " + vector2.getSize());
         System.out.println("Размер вектора vector3 = " + vector3.getSize());
 
-        vector3.add(vector5);
-        System.out.println("Сумма векторов vector1 + vector2 = " + vector3);
+        vector1.add(vector2);
+        System.out.println("Сумма векторов vector1 + vector2 = " + vector1);
 
         vector2.subtract(vector5);
         System.out.println("Разница между векторами vector2 - vector5 = " + vector2);
